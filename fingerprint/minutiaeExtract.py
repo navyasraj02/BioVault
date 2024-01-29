@@ -38,7 +38,8 @@ def extract_minutiae_segments(image_path, num_segments=4):
     return list(map(list, segments))
 
 # Example usage
-image_path = 'fing.jpeg'
+script_dir = os.path.dirname(os.path.abspath(__file__))
+image_path = os.path.join(script_dir, 'fing.jpeg')
 result_segments = extract_minutiae_segments(image_path)
 print(result_segments)
 

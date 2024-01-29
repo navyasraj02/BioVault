@@ -1,4 +1,5 @@
-import fingerprint_enhancer								# Load the library
+import fingerprint_enhancer		
+import fingerprint_feature_extractor						# Load the library
 import cv2
 import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -10,3 +11,5 @@ sample = cv2.resize(img, None,fx=.5,fy=.5)
 out = fingerprint_enhancer.enhance_Fingerprint(img)		# enhance the fingerprint image
 cv2.imshow('enhanced_image', out);						# display the result
 cv2.waitKey(0)											# hold the display window
+FeaturesTerminations, FeaturesBifurcations = fingerprint_feature_extractor.extract_minutiae_features(out, spuriousMinutiaeThresh=10, invertImage=False, showResult=True, saveResult=True)
+print(type(FeaturesBifurcations))
