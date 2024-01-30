@@ -14,7 +14,7 @@
 
 <body>
     <div>
-        <form action="" method="post">
+        <form action="/get_user_data" method="POST" enctype='multipart/form-data'>
             {{ form.csrf_token() }}
 
             <!-- NAME FIELD -->
@@ -51,6 +51,21 @@
 
                 </div>
 
+                <!-- FINGERPRINT FIELD -->
+                <div class="form-group">
+                    {{ form.fimg.label(class="form-control-label") }}
+                    {% if form.fimg.errors %}
+                    {{ form.fimg(class="form-control is-invalid") }}
+                    {% for error in form.fimg.errors %}
+                    <div class="invalid-feedback">
+                        <span>{{ error }}</span>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {{ form.fimg(class="form-control") }}
+                    {% endif %}
+
+                </div>
                 <!-- SUBMIT BUTTON -->
                 <div class="form-group">
                     {{ form.submit(class="btn btn-outline-info mt-3") }}
