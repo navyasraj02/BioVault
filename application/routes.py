@@ -9,4 +9,5 @@ from datetime import datatime
 
 @app.route("/")
 def get_user_data():
-    
+    user_data = []
+    for data in db.
