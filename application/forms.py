@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import validators, StringField, TextAreaField, SelectField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import validators,FileField, StringField, SubmitField
+from wtforms.validators import DataRequired, InputRequired, Email
 
-class userData(FlaskForm):
-    name = StringField('name', [validators.DataRequired()])
-    email = StringField('email', [validators.DataRequired(), validators.Email()])
+class UserData(FlaskForm):
+    name = StringField('Name', [validators.DataRequired()])
+    email = StringField('Email', [validators.DataRequired(), validators.Email()])
+    fimg = FileField("Upload Fingerprint",validators=[InputRequired()])
     submit = SubmitField("Sign Up")
