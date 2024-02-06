@@ -5,6 +5,7 @@ from PIL import Image
 from werkzeug.utils import secure_filename
 from bson import ObjectId
 
+from .route_func import pinGen
 from .forms import UserData
 from application import db
 
@@ -35,7 +36,8 @@ def get_user_data():
                     
                 })
 
-                flash("Sign Up Successful","success")
+                print("Sign Up Successful","success")
+                pinGen.generate_secure_token()
                 return redirect("/")
             else:
                 flash("No file uploaded", "error")
