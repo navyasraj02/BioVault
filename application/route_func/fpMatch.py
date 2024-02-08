@@ -1,10 +1,16 @@
 import cv2
-
+import numpy as np
 def fingerprint_similarity(image1_path, image2_path):
+    kp1, kp2 = None, None
+
     # Load images
     img1 = cv2.imread(image1_path, 0)
     img2 = cv2.imread(image2_path, 0)
-    
+
+    # Check image data type
+    print("Image 1 data type:", img1.dtype)
+    print("Image 2 data type:", img2.dtype)
+
     # Initialize SIFT detector
     sift = cv2.SIFT_create()
     
@@ -12,6 +18,13 @@ def fingerprint_similarity(image1_path, image2_path):
     kp1, desc1 = sift.detectAndCompute(img1, None)
     kp2, desc2 = sift.detectAndCompute(img2, None)
     
+    print(type(kp1),type(desc2))
+    num_segments=4
+    kp_s1 = np.array_split(kp1, num_segments)
+    desc_s = np.array_split(desc1, num_segments)
+    kp_s2 = np.array_split(kp2, num_segments)
+    desc_s2 = np.array_split(desc2, num_segments)
+
     # FLANN parameters
     FLANN_INDEX_KDTREE = 1
     index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=10)
@@ -19,7 +32,7 @@ def fingerprint_similarity(image1_path, image2_path):
     
     # FLANN matcher
     flann = cv2.FlannBasedMatcher(index_params, search_params)
-    matches = flann.knnMatch(desc1, desc2, k=2)
+    matches = flann.knnMatch(desc_s[2], desc_s2[2], k=2)
     
     # Ratio test as per Lowe's paper
     good_matches = []
@@ -28,10 +41,5 @@ def fingerprint_similarity(image1_path, image2_path):
             good_matches.append(m)
     
     # Calculate the similarity score
-    score = len(good_matches) / max(len(kp1), len(kp2)) * 100
-    
+    score = len(good_matches) / max(len(kp_s1[2]), len(kp_s2[2])) * 100
     return score
-
-# Example usage:
-# similarity_score = fingerprint_similarity('fa1.BMP', 'fa2.BMP')
-# print("Similarity Score:", similarity_score)
