@@ -1,5 +1,5 @@
 from application import app
-from flask import render_template, request, redirect, flash, url_for
+from flask import jsonify, render_template, request, redirect, flash, url_for
 import os
 from PIL import Image
 from werkzeug.utils import secure_filename
@@ -35,8 +35,7 @@ def get_user_data():
                     
                 })
 
-                flash("Sign Up Successful","success")
-                return redirect("/")
+                return "<p> Sign Up Successful</p>"
             else:
                 flash("No file uploaded", "error")
     else:

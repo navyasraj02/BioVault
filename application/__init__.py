@@ -1,4 +1,8 @@
 from flask import Flask
+from flask import Flask, render_template, request, jsonify
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+from flask_cors import CORS
 import os
 from flask_pymongo import PyMongo
 
@@ -11,5 +15,6 @@ app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(os.pa
 # mongodb database
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
+CORS(app)
 
 from application import routes
