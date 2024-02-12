@@ -7,8 +7,9 @@ import os
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "db24c608640f5034b30b8e1e1eb5618ed0ffdbf5"
+app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY')
 app.config["MONGO_URI"] = "mongodb+srv://donajohn31:Progband@cluster1.u0j3wol.mongodb.net/biovault?retryWrites=true&w=majority"
+# app.config["MONGO_URI"] = os.environ.get('MONGO_URI') ---NOT WOKRING 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'sample')
 
