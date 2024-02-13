@@ -1,5 +1,5 @@
 from application import app
-from flask import jsonify, render_template, request, redirect, flash, url_for
+from flask import abort,jsonify, render_template, request, redirect, flash, url_for
 import os
 from PIL import Image
 from werkzeug.utils import secure_filename
@@ -24,25 +24,16 @@ def register():
 
     #filename = secure_filename(fpimg.filename)
     #fpimg.save(os.path.join(sample_dir, filename))
-    # print("File saved successfully")
+    print("File saved successfully")
 
     #Perform encryption logic  
     
-    user = db.users.find({"email": email})
+    user = db.users.find_one({"email": email})
     print("user:",user)
-    if user:
-        return jsonify({"exists": True,"success":False})
+    if user:                                                                                                                                                                                                                     
+        return jsonify({"exists": True,"success":False,"message": "User with email already exists" }), 409
     else:
-        db.regUser.insert_one({
-            "name" : name,
-            "email" : email             
-        })
-        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
-        print("kp_s: ",kp_s)
-        print("desc: ",desc)
-        # delete_files(sample_dir)
-
-        return {"message" :"success"}
+        
 
 # --------delete file func---------
 def delete_files(folder_path):
