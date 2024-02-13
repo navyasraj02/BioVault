@@ -24,18 +24,25 @@ def register():
 
     #filename = secure_filename(fpimg.filename)
     #fpimg.save(os.path.join(sample_dir, filename))
-    print("File saved successfully")
+    # print("File saved successfully")
 
     #Perform encryption logic  
+    
+    user = db.users.find({"email": email})
+    print("user:",user)
+    if user:
+        return jsonify({"exists": True,"success":False})
+    else:
+        db.regUser.insert_one({
+            "name" : name,
+            "email" : email             
+        })
+        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
+        print("kp_s: ",kp_s)
+        print("desc: ",desc)
+        # delete_files(sample_dir)
 
-    db.regUser.insert_one({
-        "name" : name,
-        "email" : email             
-    })
-
-    # delete_files(sample_dir)
-
-    return {"message" :"success"}
+        return {"message" :"success"}
 
 # --------delete file func---------
 def delete_files(folder_path):
