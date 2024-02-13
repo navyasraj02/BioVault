@@ -4,7 +4,8 @@ import os
 from PIL import Image
 from werkzeug.utils import secure_filename
 
-from .route_func import pinGen,fpMatch  
+from .route_func import pinGen,fpMatch
+from .route_func.encryption import random_gen 
 from .forms import UserData
 from application import db
 
@@ -26,29 +27,40 @@ def register():
     #fpimg.save(os.path.join(sample_dir, filename))
     # print("File saved successfully")
 
-    #Perform encryption logic  
-    
-    user = db.users.find_one({"email": email})
-    print("user:",user)
-    if user:
-        return jsonify({"exists": True,"success":False})
+    # Check for existing email id
+    existing_user = db.users.find_one({"email": email})
+    if existing_user:
+        print("user found: ",existing_user)
+        return jsonify({"exists": True,"success":False}), 409
     else:
-        db.regUser.insert_one({
+
+        # Retrieve object_id of user
+        user_id = db.regUser.insert_one({
             "name" : name,
             "email" : email             
-        })
+        }).inserted_id
+        print("Id: ",user_id)
+
+        # Generate random server nos from user_id
+        random_snos = random_gen.generate_random_numbers(user_id)
+        print('Random server nos: ',random_snos)
+
+        # Segment fingerprint into 4 parts
         kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
-        print("kp_s: ",kp_s)
-        print("desc: ",desc)
+        # print("kp_s: ",kp_s)
+        # print("desc: ",desc)
+
+        # Send segments to random servers
+
+       
+        '''"segments": [
+        {
+            "segment_id": 1,
+            "keypoints": kp_s1[0]  // Convert to a Python list for storage
+        }'''
+
         # delete_files(sample_dir)
-        user=db.users.find({ "email": email })
-        print(user)
-        # "segments": [
-        # {
-        #     "segment_id": 1,
-        #     "keypoints": kp_s1[0]  // Convert to a Python list for storage
-        # }
-        return {"message" :"success"}
+        return {"message" :"Registration successful","success": True}
 
 # --------delete file func---------
 def delete_files(folder_path):
