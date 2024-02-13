@@ -28,7 +28,7 @@ def register():
 
     #Perform encryption logic  
     
-    user = db.users.find({"email": email})
+    user = db.users.find_one({"email": email})
     print("user:",user)
     if user:
         return jsonify({"exists": True,"success":False})
@@ -41,7 +41,13 @@ def register():
         print("kp_s: ",kp_s)
         print("desc: ",desc)
         # delete_files(sample_dir)
-
+        user=db.users.find({ "email": email })
+        print(user)
+        # "segments": [
+        # {
+        #     "segment_id": 1,
+        #     "keypoints": kp_s1[0]  // Convert to a Python list for storage
+        # }
         return {"message" :"success"}
 
 # --------delete file func---------
