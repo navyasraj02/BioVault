@@ -5,7 +5,7 @@ from PIL import Image
 from werkzeug.utils import secure_filename
 
 from .route_func import pinGen,fpMatch
-from .route_func.encryption import random_gen 
+from .route_func.encryption import segEnc2, random_gen
 from .forms import UserData
 from application import db
 
@@ -30,7 +30,7 @@ def register():
     # Check for existing email id
     existing_user = db.users.find_one({"email": email})
     if existing_user:
-        print("user found: ",existing_user)
+        print("User found: ",existing_user)
         return jsonify({"exists": True,"success":False}), 409
     else:
 
@@ -50,6 +50,16 @@ def register():
         # print("kp_s: ",kp_s)
         # print("desc: ",desc)
 
+        # Retrieve the server public keys 
+        pub_keys = segEnc2.get_public_keys(random_snos)
+        # for i in random_snos:
+        #     print("Server ",i," : ",pub_keys[i])
+
+        # Encrypt the segments 
+        # for i in range(4):
+        #     # print(random_snos[i],": ",pub_keys[random_snos[i]])
+        #     encrpted_seg = segEnc2.encrypt_segment(pub_keys[random_snos[i]],kp_s[i])
+        #     print("Encrypted segment ",i+1,": ",encrpted_seg)
         # Send segments to random servers
 
        
