@@ -19,16 +19,16 @@ def index():
 
 @app.route("/api/register", methods=["POST","GET"])
 def register():
-    name = request.json.get("name")
-    email = request.json.get("email")
-    #fpimg = request.files['image']
+    name = request.form.get("name")
+    email = request.form.get("email")
+    fpimg = request.files['fingerprint']
 
-    #filename = secure_filename(fpimg.filename)
-    #fpimg.save(os.path.join(sample_dir, filename))
-    # print("File saved successfully")
+    filename = secure_filename(fpimg.filename)
+    fpimg.save(os.path.join(sample_dir, filename))
+    print("File saved successfully")
 
     # Check for existing email id
-    existing_user = db.users.find_one({"email": email})
+    existing_user = db.regUser.find_one({"email": email})
     if existing_user:
         print("User found: ",existing_user)
         return jsonify({"exists": True,"success":False}), 409

@@ -30,7 +30,7 @@ def get_public_keys(server_list):
     public_keys = {}
     for server_no in server_list:
         pem_file = os.path.join(pubkeys_folder, f"public_key_{server_no}.pem")
-        print(pem_file)
+        # print(pem_file)
         if not os.path.exists(pem_file):
             print(f"PEM file not found for server {server_no}")
             continue
@@ -51,6 +51,6 @@ def get_public_keys(server_list):
     return public_keys
 
 # Example usage
-server_list = [1, 3, 5]  # Replace with your actual server list
-public_keys_dict = get_public_keys(server_list)
-print(public_keys_dict)
+# server_list = [1, 3, 5]  # Replace with your actual server list
+# public_keys_dict = get_public_keys(server_list)
+# print(public_keys_dict)
