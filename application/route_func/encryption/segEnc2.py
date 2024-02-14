@@ -6,16 +6,8 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 pubkeys_folder = os.path.join(os.path.abspath(os.path.dirname(__file__)), "PublicKeys")
 
-def encrypt_segment(public_key, segment):
-    """Encrypts a single segment of keypoints using RSA.
-
-    Args:
-        public_key (cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey): The public key to use for encryption.
-        segment (list): A list of keypoints of type <class 'tuple'>.
-
-    Returns:
-        bytes: The encrypted segment data.
-    """
+"""def encrypt_segment(public_key, segment):
+    
     # Serialize the segment data using pickle for RSA compatibility
     # serialized_segment = pickle.dumps(segment)
 
@@ -32,7 +24,7 @@ def encrypt_segment(public_key, segment):
         )
         encrypted_segments.append(encrypted_point)
         
-    return encrypted_segments
+    return encrypted_segments"""
 
 def get_public_keys(server_list):
     public_keys = {}
