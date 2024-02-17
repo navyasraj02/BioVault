@@ -5,12 +5,12 @@ import numpy as np
 kp1, kp2, kp = None, None, None
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-image_path = os.path.join(script_dir, 'fa1.BMP')
+image_path = os.path.join(script_dir, 'fa2.BMP')
 img = cv2.imread(image_path, 0)
 #e1=fingerprint_enhancer.enhance_Fingerprint(img)
 
 # img_path2 = os.path.join(script_dir, 'fing2.jpeg')
-img_path2 = os.path.join(script_dir, 'fa2.BMP')
+img_path2 = os.path.join(script_dir, 'fa1.BMP')
 img2 = cv2.imread(img_path2, 0)
 #e2=fingerprint_enhancer.enhance_Fingerprint(img2)
 sift = cv2.SIFT_create()
@@ -33,12 +33,12 @@ search_params = dict(checks=50)
 
 # FLANN matcher
 flann = cv2.FlannBasedMatcher(index_params, search_params)
-matches = flann.knnMatch(desc_s[2], desc_s2[2], k=2)
+matches = flann.knnMatch(desc_s[3], desc_s2[3], k=2)
 
 # Ratio test as per Lowe's paper
 good_matches = []
 for m, n in matches:
-    if m.distance < 0.7 * n.distance:
+    if m.distance < 0.85 * n.distance:
         good_matches.append(m)
 
 # Calculate the similarity score

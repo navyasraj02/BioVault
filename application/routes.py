@@ -17,10 +17,15 @@ sample_dir = os.path.join(parent_dir, 'sample')
 def index():
     return  {"status": "success", "message": "Integrate Flask Framework with Next.js"}
 
+@app.route("/api/regnex")
+def reg():
+    
+    return
 @app.route("/api/register", methods=["POST","GET"])
 def register():
     name = request.json.get("name")
     email = request.json.get("email")
+    #phno=request.json.get("phoneNumber")
     #fpimg = request.files['image']
 
     #filename = secure_filename(fpimg.filename)
