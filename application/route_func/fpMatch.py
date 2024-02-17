@@ -8,7 +8,7 @@ def fingerprint_segment(image1_path):
     #img2 = cv2.imread(image2_path, 0)
 
     # Check image data type
-    print("Image 1 data type:", img1.dtype)
+    # print("Image 1 data type:", img1.dtype)
     #print("Image 2 data type:", img2.dtype)
 
     # Initialize SIFT detector
@@ -18,7 +18,7 @@ def fingerprint_segment(image1_path):
     kp1, desc1 = sift.detectAndCompute(img1, None)
     #kp2, desc2 = sift.detectAndCompute(img2, None)
     
-    print(type(kp1),type(desc1))
+    # print(type(kp1),type(desc1))
     num_segments=4
     kp_s1 = np.array_split(kp1, num_segments)
     desc_s = np.array_split(desc1, num_segments)
