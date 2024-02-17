@@ -17,10 +17,27 @@ sample_dir = os.path.join(parent_dir, 'sample')
 def index():
     return  {"status": "success", "message": "Integrate Flask Framework with Next.js"}
 
-@app.route("/api/regnex")
-def reg():
-    
-    return
+@app.route("/api/login", methods=["POST","GET"])
+def login():
+    name=request.form.get("name")
+    email=request.form.get("email")
+    fpimg=request.files['fingerprint']
+    existing_user = db.regUser.find_one({"email": email})
+    if existing_user:
+        print("User found: ",existing_user)
+        #return jsonify({"exists": True,"success":False}), 409
+        filename = secure_filename(fpimg.filename)
+        fpimg.save(os.path.join(sample_dir, filename))
+        print("File saved successfully")
+        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
+        randomno=random_gen.generate_random_numbers(existing_user._id)
+        print(randomno)
+        return jsonify({"exists": True,"success":False}), 409
+    else:
+        return {"message":"No such User exists!!!"}
+
+        
+
 @app.route("/api/register", methods=["POST","GET"])
 def register():
     name = request.form.get("name")
