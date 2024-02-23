@@ -50,6 +50,6 @@ def hash_string(string):
     return sha256(encrypted_string.encode()).hexdigest()
 
 # Example usage
-string = "your_fingerprint_st1233ring"
-hash_value = hash_string(string)
-print(f"Hash of '{string}': {hash_value}")
+# string = "your_fingerprint_st1233ring"
+# hash_value = hash_string(string)
+# print(f"Hash of '{string}': {hash_value}")
