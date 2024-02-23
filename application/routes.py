@@ -1,7 +1,7 @@
 from application import app
 from flask import jsonify, render_template, request, redirect, flash, url_for
 import os
-# import requests
+import requests
 from PIL import Image
 from werkzeug.utils import secure_filename
 
@@ -70,14 +70,14 @@ def register():
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
         # Send segments to random servers
-        # for i in range(4):
-        #     server=random_snos[i]
-        #     sroute='http://localhost:500/'+str(server)
-        #     print(sroute)
-        #     response = requests.post(sroute, data={'t_id':t_id,'segment':kp_s[i]})
-
-        #     # Print the response
-        #     print(response.content)
+        for i in range(4):
+            server=random_snos[i]
+            sroute='http://localhost:500/'+str(server)
+            print(sroute)
+            response = requests.post(sroute, data={'t_id':t_id,'segment':kp_s[i]})
+            print("sent: from main server")
+            # Print the response
+            print(response.content)
 
         # delete_files(sample_dir)
         return {"message" :"Registration successful","success": True}
@@ -101,8 +101,13 @@ def login():
         user_id = existing_user['_id']
         print("Id: ", user_id)
 
-        """# Generate random server nos from user_id
-        random_snos = random_gen.generate_random_numbers(user_id)
+        print("applying transformation")
+        # Encrypt user_id by applying transformations - RC4 and SHA256
+        t_id = transform.hash_string(str(user_id))
+        print("Transformed Id: ",t_id)
+
+        # Generate random server nos 
+        random_snos = random_gen.generate_random_numbers(t_id)
         print('Random server nos: ',random_snos)
 
         # Segment fingerprint into 4 parts
@@ -122,7 +127,16 @@ def login():
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
         # Send segments to random servers and perform matching
-        # delete_files(sample_dir)"""
+        # Send segments to random servers
+        for i in range(4):
+            server=random_snos[i]
+            sroute='https://biovault-server1.onrender.com'
+            print(sroute)
+            response = requests.post(sroute, data={'t_id':t_id,'kp':kp_s[i],'desc':desc[i]})
+            print("sent: from main server")
+            # Print the response
+            print(response.content)
+        # delete_files(sample_dir)
         return {"message" :"Login successful","success": True}
     else:
         print("User not found: ",existing_user)
