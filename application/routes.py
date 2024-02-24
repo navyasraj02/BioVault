@@ -70,14 +70,29 @@ def register():
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
         # Send segments to random servers
-        for i in range(4):
+        data_array1 = kp_s[0]
+        data_array2 = desc[0]
+        data_string = t_id
+
+        # Combine data into a dictionary
+        data = {
+            "data_array1": data_array1,
+            "data_array2": data_array2,
+            "data_string": data_string,
+        }
+
+        # Send POST request to receiving server
+        response = requests.post(
+            "http://127.0.0.1:5000/api/log", json=data)
+
+        '''for i in range(4):
             server=random_snos[i]
             sroute='http://localhost:500/'+str(server)
             print(sroute)
             response = requests.post(sroute, data={'t_id':t_id,'segment':kp_s[i]})
             print("sent: from main server")
             # Print the response
-            print(response.content)
+            print(response.content)'''
 
         # delete_files(sample_dir)
         return {"message" :"Registration successful","success": True}
