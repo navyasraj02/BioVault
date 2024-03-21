@@ -2,6 +2,7 @@ from application import app
 from flask import jsonify, render_template, request, redirect, flash, url_for
 import os
 import requests
+import numpy as np
 from PIL import Image
 from werkzeug.utils import secure_filename
 
@@ -128,11 +129,14 @@ def login():
 
         # Send segments to random servers and perform matching
         # Send segments to random servers
+
+        num_segments=4
+        tid_arr= np.array_split(t_id, num_segments)
         for i in range(4):
-            server=random_snos[i]
-            sroute='https://biovault-server1.onrender.com'
+            server=random_snos[i]       
+            sroute='https://biovault-server1.onrender.com'      #as of now, only 1 server
             print(sroute)
-            response = requests.post(sroute, data={'t_id':t_id,'kp':kp_s[i],'desc':desc[i]})
+            response = requests.post(sroute, data={'t_id':tid_arr[i],'kp':kp_s[i],'desc':desc[i]})
             print("sent: from main server")
             # Print the response
             print(response.content)
