@@ -2,6 +2,7 @@ from application import app
 from flask import jsonify, render_template, request, redirect, flash, url_for
 import os
 #import requests
+import numpy as np
 from PIL import Image
 from werkzeug.utils import secure_filename
 
