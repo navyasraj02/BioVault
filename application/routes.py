@@ -23,8 +23,8 @@ def index():
 def register():
     name = request.form.get("name")
     email = request.form.get("email")
-    phoneno = request.form.get("phoneno")
-    print("phone no:",phoneno)
+    #phoneno = request.form.get("phoneno")
+    #print("phone no:",phoneno)
     fpimg = request.files['fingerprint']
 
     filename = secure_filename(fpimg.filename)
@@ -42,7 +42,7 @@ def register():
         user_id = db.regUser.insert_one({
             "name" : name,
             "email" : email,
-            "phoneno" : phoneno            
+            #"phoneno" : phoneno            
         }).inserted_id
         print("Id: ",user_id)
 
