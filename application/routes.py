@@ -1,8 +1,7 @@
 from application import app
 from flask import jsonify, render_template, request, redirect, flash, url_for
 import os
-import requests
-import numpy as np
+#import requests
 from PIL import Image
 from werkzeug.utils import secure_filename
 
@@ -83,7 +82,7 @@ def register():
         }
 
         # Send POST request to receiving server
-        response = requests.post(
+        response = request.post(
             "http://127.0.0.1:5000/api/log", json=data)
         print("sent: from main server")    
         print(response.content)    
@@ -153,7 +152,7 @@ def login():
             server=random_snos[i]       
             sroute='https://biovault-server1.onrender.com'      #as of now, only 1 server
             print(sroute)
-            response = requests.post(sroute, data={'t_id':tid_arr[i],'kp':kp_s[i],'desc':desc[i]})
+            response = request.post(sroute, data={'t_id':t_id,'kp':kp_s[i],'desc':desc[i]})
             print("sent: from main server")
             # Print the response
             print(response.content)
