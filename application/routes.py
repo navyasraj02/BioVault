@@ -71,20 +71,22 @@ def register():
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
         # Send segments to random servers
-        data_array1 = kp_s[0]
-        data_array2 = desc[0]
-        data_string = t_id
+        keypoint_1 = kp_s[0]
+        descrip_1 = desc[0]
+        user_id_1= t_id
 
         # Combine data into a dictionary
         data = {
-            "data_array1": data_array1,
-            "data_array2": data_array2,
-            "data_string": data_string,
+            "keypoint": keypoint_1,
+            "descrip": descrip_1,
+            "user_id": user_id_1,
         }
 
         # Send POST request to receiving server
         response = requests.post(
             "http://127.0.0.1:5000/api/log", json=data)
+        print("sent: from main server")    
+        print(response.content)    
 
         '''for i in range(4):
             server=random_snos[i]
