@@ -18,5 +18,5 @@ mongodb_client = PyMongo(app)
 db = mongodb_client.db
 CORS(app)
 
-CORS(app, resources={r"/api/": {"origins": ""}}) 
+CORS(app, "origins": "*")
 from application import routes
