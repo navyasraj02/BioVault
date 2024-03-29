@@ -84,7 +84,7 @@ def register():
 
         # Send POST request to receiving server
         response = request.post(
-            "http://127.0.0.1:5000/api/log", json=data,headers={"Content-Type": "application/json"})
+            "https://biovault-server1.onrender.com/api/log", json={"data":data},headers={"Content-Type": "application/json"})
         print("sent: from main server") 
         if response.status_code!=200:
             return jsonify({"error":"error sending to storage server"})   
