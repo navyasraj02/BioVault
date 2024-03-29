@@ -1,7 +1,7 @@
 from application import app
 from flask import jsonify, render_template, request, redirect, flash, url_for
 import os
-#import requests
+import requests
 import numpy as np
 from PIL import Image
 from werkzeug.utils import secure_filename
@@ -83,7 +83,7 @@ def register():
         }
 
         # Send POST request to receiving server
-        response = request.post(
+        response = requests.post(
             "https://biovault-server1.onrender.com/api/log", json={"data":data},headers={"Content-Type": "application/json"})
         print("sent: from main server") 
         if response.status_code!=200:
