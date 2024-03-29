@@ -84,9 +84,11 @@ def register():
 
         # Send POST request to receiving server
         response = request.post(
-            "http://127.0.0.1:5000/api/log", json=data)
-        print("sent: from main server")    
-        print(response.content)    
+            "http://127.0.0.1:5000/api/log", json=data,headers={"Content-Type": "application/json"})
+        print("sent: from main server") 
+        if response.status_code!=200:
+            return jsonify({"error":"error sending to storage server"})   
+        print(response.content)  
 
         '''for i in range(4):
             server=random_snos[i]
