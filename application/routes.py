@@ -77,8 +77,8 @@ def register():
 
         # Combine data into a dictionary
         data = {
-            "keypoint": keypoint_1,
-            "descrip": descrip_1,
+            "keypoint": keypoint_1.tolist(),
+            "descrip": descrip_1.tolist(),
             "user_id": user_id_1,
         }
 
