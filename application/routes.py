@@ -61,16 +61,9 @@ def register():
             print("sent: from main server") 
             if response.status_code!=200:
                 return jsonify({"error":"error sending to storage server"+i})
-            response_data = json.loads(response.content)
+            response_data = json.loads(response.content)'''
 
-            # Check if the response indicates success and get the score if present
-            if response_data.get("success") == "true":
-                score = response_data.get("score")
-                s.append(score)
-                print("Score:", score)
-            else:
-                print("Response indicates failure")   
-                print(response.content)'''
+            
         
 
         # Segment fingerprint into 4 parts change the image to image recieved from the front end
@@ -149,29 +142,26 @@ def login():
 
         # Retrieve the server public keys 
         pub_keys = segEnc2.get_public_keys(random_snos)
-        # for i in random_snos:
-        #     print("Server ",i," : ",pub_keys[i])
+        '''for i in range(4):
+            server=fpMatch.server(random_snos[i])
+            response = requests.post(
+            server[i]+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+            print("sent: from main server") 
+            if response.status_code!=200:
+                return jsonify({"error":"error sending to storage server"+i})
+            response_data = json.loads(response.content)
 
-        # Encrypt the segments 
-        # for i in range(4):
-        #     # print(random_snos[i],": ",pub_keys[random_snos[i]])
-        #     encrpted_seg = segEnc2.encrypt_segment(pub_keys[random_snos[i]],kp_s[i])
-        #     print("Encrypted segment ",i+1,": ",encrpted_seg)
+            # Check if the response indicates success and get the score if present
+            if response_data.get("success") == "true":
+                score = response_data.get("score")
+                s.append(score)
+                print("Score:", score)
+            else:
+                print("Response indicates failure")   
+                print(response.content)'''
+        
 
-        # Send segments to random servers and perform matching
-        # Send segments to random servers
-
-        num_segments=4
-        tid_arr= np.array_split(t_id, num_segments)
-        for i in range(4):
-            server=random_snos[i]       
-            sroute='https://biovault-server1.onrender.com'      #as of now, only 1 server
-            print(sroute)
-            response = request.post(sroute, data={'t_id':t_id,'kp':kp_s[i],'desc':desc[i]})
-            print("sent: from main server")
-            # Print the response
-            print(response.content)
-        # delete_files(sample_dir)
+        
         return {"message" :"Login successful","success": True}
     else:
         print("User not found: ",existing_user)
