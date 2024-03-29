@@ -74,15 +74,7 @@ def register():
         keypoint_1 = kp_s[0]
         descrip_1 = desc[0]
         user_id_1= t_id
-        """skeypoint_1 = [msgpack.dumps({
-        'pt': (kp.pt[0], kp.pt[1]),
-        'size': kp.size,
-        'angle': kp.angle,
-        'response': kp.response,
-        'octave': kp.octave,
-        'class_id': kp.class_id
-        }) for kp in keypoint_1]"""
-        # Combine data into a dictionary
+        
         data = {
             "len":len(keypoint_1),
             #"keypoint": skeypoint_1.tolist(),
