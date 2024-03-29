@@ -52,9 +52,28 @@ def register():
 
         # Generate random server nos 
         random_snos = random_gen.generate_random_numbers(t_id)
+        s=[]
         print('Random server nos: ',random_snos)
+        '''for i in range(4):
+            server=fpMatch.server(random_snos[i])
+            response = requests.post(
+            server[i]+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+            print("sent: from main server") 
+            if response.status_code!=200:
+                return jsonify({"error":"error sending to storage server"+i})
+            response_data = json.loads(response.content)
 
-        # Segment fingerprint into 4 parts
+            # Check if the response indicates success and get the score if present
+            if response_data.get("success") == "true":
+                score = response_data.get("score")
+                s.append(score)
+                print("Score:", score)
+            else:
+                print("Response indicates failure")   
+                print(response.content)'''
+        
+
+        # Segment fingerprint into 4 parts change the image to image recieved from the front end
         kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
         # print("kp_s: ",kp_s)
         # print("desc: ",desc)
@@ -90,14 +109,7 @@ def register():
             return jsonify({"error":"error sending to storage server"})   
         print(response.content)  
 
-        '''for i in range(4):
-            server=random_snos[i]
-            sroute='http://localhost:500/'+str(server)
-            print(sroute)
-            response = requests.post(sroute, data={'t_id':t_id,'segment':kp_s[i]})
-            print("sent: from main server")
-            # Print the response
-            print(response.content)'''
+        
 
         # delete_files(sample_dir)
         return {"message" :"Registration successful","success": True}

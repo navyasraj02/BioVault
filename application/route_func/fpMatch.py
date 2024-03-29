@@ -54,3 +54,17 @@ def serializef(keypoint):
         'class_id': kp.class_id
         }) for kp in keypoint]
     return skeypoint_1
+def server(i):
+    server_urls = [
+    "http://server1.com",
+    "http://server2.com",
+    "http://server3.com",
+    "http://server4.com",
+    "http://server5.com",
+    "http://server6.com",
+    "http://server7.com",
+    "http://server8.com",
+    "http://server9.com",
+    "http://server10.com"
+    ]
+    return server_urls[i-1]
