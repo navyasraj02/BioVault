@@ -5,7 +5,7 @@ import requests
 import numpy as np
 from PIL import Image
 from werkzeug.utils import secure_filename
-
+import msgpack
 from .route_func import pinGen,fpMatch
 from .route_func.encryption import segEnc2, random_gen,transform
 from .forms import UserData
@@ -81,7 +81,7 @@ def register():
             "descrip": descrip_1.tolist(),
             "user_id": user_id_1,
         }
-
+        data=msgpack.dumps(data)
         # Send POST request to receiving server
         response = requests.post(
             "https://biovault-server1.onrender.com/api/log", json={"data":data},headers={"Content-Type": "application/json"})
