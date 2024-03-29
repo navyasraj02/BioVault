@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import msgpack
 def fingerprint_segment(image1_path):
     kp1, kp2 = None, None
 
@@ -43,3 +44,13 @@ def fingerprint_segment(image1_path):
     # Calculate the similarity score
     score = len(good_matches) / max(len(kp_s1[2]), len(kp_s2[2])) * 100'''
     return kp_s1,desc1
+def serializef(keypoint):
+    skeypoint_1 = [msgpack.dumps({
+        'pt': (kp.pt[0], kp.pt[1]),
+        'size': kp.size,
+        'angle': kp.angle,
+        'response': kp.response,
+        'octave': kp.octave,
+        'class_id': kp.class_id
+        }) for kp in keypoint]
+    return skeypoint_1
