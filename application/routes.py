@@ -5,7 +5,6 @@ import requests
 import numpy as np
 from PIL import Image
 from werkzeug.utils import secure_filename
-import msgpack
 from .route_func import pinGen,fpMatch
 from .route_func.encryption import segEnc2, random_gen,transform
 from .forms import UserData
@@ -52,6 +51,11 @@ def register():
 
         # Generate random server nos 
         random_snos = random_gen.generate_random_numbers(t_id)
+        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
+        keypoint_1 = kp_s[0]
+        descrip_1 = desc[0]
+        user_id_1= t_id
+        
         s=[]
         print('Random server nos: ',random_snos)
         '''for i in range(4):
@@ -63,15 +67,7 @@ def register():
                 return jsonify({"error":"error sending to storage server"+i})
             response_data = json.loads(response.content)'''
 
-            
         
-
-        # Segment fingerprint into 4 parts change the image to image recieved from the front end
-        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
-        # print("kp_s: ",kp_s)
-        # print("desc: ",desc)
-
-        # Retrieve the server public keys 
         pub_keys = segEnc2.get_public_keys(random_snos)
         # for i in random_snos:
         #     print("Server ",i," : ",pub_keys[i])
@@ -83,9 +79,7 @@ def register():
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
         # Send segments to random servers
-        keypoint_1 = kp_s[0]
-        descrip_1 = desc[0]
-        user_id_1= t_id
+        
         
         data = {
             "len":len(keypoint_1),
@@ -93,7 +87,7 @@ def register():
             "descrip": descrip_1.tolist(),
             "user_id": user_id_1,
         }
-        #data=msgpack.dumps(data)
+        
         # Send POST request to receiving server
         response = requests.post(
             "https://biovault-server1.onrender.com/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
@@ -103,9 +97,6 @@ def register():
             return jsonify({"error":"error sending to storage server"})   
         print(response.content)  
 
-        
-
-        # delete_files(sample_dir)
         return {"message" :"Registration successful","success": True}
 
 @app.route("/api/login", methods=["POST","GET"])
@@ -136,11 +127,6 @@ def login():
         random_snos = random_gen.generate_random_numbers(t_id)
         print('Random server nos: ',random_snos)
 
-        # Segment fingerprint into 4 parts
-        #kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
-        # print("kp_s: ",kp_s)
-        # print("desc: ",desc)
-
         # Retrieve the server public keys 
         pub_keys = segEnc2.get_public_keys(random_snos)
         '''for i in range(4):
@@ -160,7 +146,7 @@ def login():
             else:
                 print("Response indicates failure")   
                 print(response.content)'''
-        
+        #if all score is above 50 success and token send to front end acess
 
         
         return {"message" :"Login successful","success": True}
@@ -169,23 +155,7 @@ def login():
         return jsonify({"success":False}), 409
         
 
-"""@app.route("/api/login", methods=["POST","GET"])
-def login():
-    name=request.form.get("name")
-    email=request.form.get("email")
-    fpimg=request.files['fingerprint']
-    existing_user = db.regUser.find_one({"email": email})
-    if existing_user:
-        print("User found: ",existing_user)
-        filename = secure_filename(fpimg.filename)
-        fpimg.save(os.path.join(sample_dir, filename))
-        print("File saved successfully")
-        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
-        randomno=random_gen.generate_random_numbers(existing_user._id)
-        print(randomno)
-        return jsonify({"exists": True,"success":False}), 409
-    else:
-        return {"message":"No such User exists!!!"}"""  
+ 
 
 # --------delete file func---------
 def delete_files(folder_path):
