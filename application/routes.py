@@ -96,7 +96,7 @@ def register():
         #data=msgpack.dumps(data)
         # Send POST request to receiving server
         response = requests.post(
-            "https://biovault-server1.onrender.com/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+            "https://biovault-server1.onrender.com/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
         print("sent: from main server") 
         if response.status_code!=200:
             return jsonify({"error":"error sending to storage server"})   
@@ -136,7 +136,7 @@ def login():
         print('Random server nos: ',random_snos)
 
         # Segment fingerprint into 4 parts
-        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
+        #kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
         # print("kp_s: ",kp_s)
         # print("desc: ",desc)
 
