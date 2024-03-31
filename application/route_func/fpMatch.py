@@ -27,23 +27,7 @@ def fingerprint_segment(image1_path):
     #desc_s2 = np.array_split(desc2, num_segments)
 
     # FLANN parameters
-    '''FLANN_INDEX_KDTREE = 1
-    index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=10)
-    search_params = dict(checks=50)
-    
-    # FLANN matcher
-    flann = cv2.FlannBasedMatcher(index_params, search_params)
-    matches = flann.knnMatch(desc_s[2], desc_s2[2], k=2)
-    
-    # Ratio test as per Lowe's paper
-    good_matches = []
-    for m, n in matches:
-        if m.distance < 0.7 * n.distance:
-            good_matches.append(m)
-    
-    # Calculate the similarity score
-    score = len(good_matches) / max(len(kp_s1[2]), len(kp_s2[2])) * 100'''
-    return kp_s1,desc1
+    return kp_s1,desc_s
 def serializef(keypoint):
     skeypoint_1 = [msgpack.dumps({
         'pt': (kp.pt[0], kp.pt[1]),
@@ -56,10 +40,10 @@ def serializef(keypoint):
     return skeypoint_1
 def server(i):
     server_urls = [
-    "http://server1.com",
-    "http://server2.com",
-    "http://server3.com",
-    "http://server4.com",
+    "https://biovault-server1.onrender.com",
+    "https://bs-3-4-1.onrender.com",
+    "https://bs-3-4.onrender.com",
+    "https://bserver2.onrender.com",
     "http://server5.com",
     "http://server6.com",
     "http://server7.com",
