@@ -51,13 +51,16 @@ def register():
 
         # Generate random server nos 
         random_snos = random_gen.generate_random_numbers(t_id)
+        print('Random server nos: ',random_snos)
+        
+        # Fingerprint segmentation
         kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
         keypoint_1 = kp_s[0]
         descrip_1 = desc[0]
         user_id_1= t_id
         
         s=[]
-        print('Random server nos: ',random_snos)
+        
         '''for i in range(4):
             server=fpMatch.server(random_snos[i])
             response = requests.post(
@@ -67,8 +70,9 @@ def register():
                 return jsonify({"error":"error sending to storage server"+i})
             response_data = json.loads(response.content)'''
 
-        
+        # Retrieve the server public keys 
         pub_keys = segEnc2.get_public_keys(random_snos)
+
         # for i in random_snos:
         #     print("Server ",i," : ",pub_keys[i])
 
@@ -79,8 +83,6 @@ def register():
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
         # Send segments to random servers
-        
-        
         data = {
             "len":len(keypoint_1),
             #"keypoint": skeypoint_1.tolist(),
@@ -118,7 +120,7 @@ def login():
         user_id = existing_user['_id']
         print("Id: ", user_id)
 
-        print("applying transformation")
+        print("Applying transformation")
         # Encrypt user_id by applying transformations - RC4 and SHA256
         t_id = transform.hash_string(str(user_id))
         print("Transformed Id: ",t_id)
@@ -127,8 +129,15 @@ def login():
         random_snos = random_gen.generate_random_numbers(t_id)
         print('Random server nos: ',random_snos)
 
+        #Fingerprint segmentation
+        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
+        keypoint_1 = kp_s[0]
+        descrip_1 = desc[0]
+        user_id_1= t_id
+
         # Retrieve the server public keys 
         pub_keys = segEnc2.get_public_keys(random_snos)
+
         '''for i in range(4):
             server=fpMatch.server(random_snos[i])
             response = requests.post(
@@ -149,7 +158,7 @@ def login():
         #if all score is above 50 success and token send to front end acess
 
         
-        return {"message" :"Login successful","success": True}
+        return jsonify({"message" :"Login successful","success": True})
     else:
         print("User not found: ",existing_user)
         return jsonify({"success":False}), 409
