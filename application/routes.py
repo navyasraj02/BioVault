@@ -86,22 +86,7 @@ def register():
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
         # Send segments to random servers
-        '''data = {
-            "len":len(keypoint_1),
-            #"keypoint": skeypoint_1.tolist(),
-            "descrip": descrip_1.tolist(),
-            "user_id": user_id_1,
-        }'''
         
-        # Send POST request to receiving server
-        """response = requests.post(
-            "https://biovault-server1.onrender.com/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
-        print("sent: from main server") 
-        if response.status_code!=201:
-            print(response)
-            return jsonify({"error":"error sending to storage server"})   
-        print(response.content) """
-
         return {"message" :"Registration successful","success": True}
 
 @app.route("/api/login", methods=["POST","GET"])
@@ -134,34 +119,45 @@ def login():
 
         #Fingerprint segmentation
         kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
-        keypoint_1 = kp_s[0]
-        descrip_1 = desc[0]
+        s=[]
         user_id_1= t_id
 
         # Retrieve the server public keys 
         pub_keys = segEnc2.get_public_keys(random_snos)
 
-        '''for i in range(4):
+        for i in range(4):
             server=fpMatch.server(random_snos[i])
+            data = {
+            "len":len(kp_s[i]),
+            #"keypoint": skeypoint_1.tolist(),
+            "descrip": desc[i].tolist(),
+            "user_id": user_id_1}
             response = requests.post(
-            server[i]+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+            server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
             print("sent: from main server") 
-            if response.status_code!=200:
-                return jsonify({"error":"error sending to storage server"+i})
-            response_data = json.loads(response.content)
+            if response.status_code!=201:
+                print("error")
+                print(response)
+                return jsonify({"error":"error sending to storage server"})
+            
 
             # Check if the response indicates success and get the score if present
-            if response_data.get("success") == "true":
-                score = response_data.get("score")
+            if response.get("success") == "true":
+                score = response.get("score")
                 s.append(score)
                 print("Score:", score)
             else:
                 print("Response indicates failure")   
-                print(response.content)'''
+                print(response.content)
+        print("outside for loop")
+        s=np.array(s)
+        all_above_50 = np.all(s> 50)
         #if all score is above 50 success and token send to front end acess
-
-        
-        return jsonify({"message" :"Login successful","success": True})
+        if all_above_50:
+            return jsonify({"message" :"Login successful","success": True})
+        else:
+           return jsonify({"message" :"Login failed","success": False})
+                
     else:
         print("User not found: ",existing_user)
         return jsonify({"success":False}), 409
