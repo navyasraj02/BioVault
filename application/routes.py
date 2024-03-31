@@ -55,25 +55,24 @@ def register():
         
         # Fingerprint segmentation
         kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
-        keypoint_1 = kp_s[0]
-        descrip_1 = desc[0]
+        
         user_id_1= t_id
-        
-        s=[]
-        
+        print(desc[0].tolist())
+        s=[]        
         for i in range(4):
             server=fpMatch.server(random_snos[i])
             data = {
             "len":len(kp_s[i]),
             #"keypoint": skeypoint_1.tolist(),
             "descrip": desc[i].tolist(),
-            "user_id": user_id_1,}
+            "user_id": user_id_1}
             response = requests.post(
-            server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+            server+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
             print("sent: from main server") 
-            if response.status_code!=200:
+            if response.status_code!=201:
                 print("error")
-               # return jsonify({"error":"error sending to storage server"+i})
+                print(response)
+                return jsonify({"error":"error sending to storage server"})
             
 
         # Retrieve the server public keys 

@@ -8,6 +8,6 @@ def generate_random_numbers(seed_value):
   random.seed(seed)
 
   # Generate 4 random numbers
-  random_numbers = [random.randint(1,4)  for _ in range(4)]
+  random_numbers = [random.randint(1,10)  for _ in range(4)]
 
   return random_numbers
