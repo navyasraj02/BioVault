@@ -66,7 +66,7 @@ def register():
             data = {
             "len":len(kp_s[i]),
             #"keypoint": skeypoint_1.tolist(),
-            "descrip": desc[i],
+            "descrip": desc[i].tolist(),
             "user_id": user_id_1,}
             response = requests.post(
             server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
