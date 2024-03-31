@@ -61,7 +61,7 @@ def register():
         
         s=[]
         
-        '''for i in range(4):
+        for i in range(4):
             server=fpMatch.server(random_snos[i])
             data = {
             "len":len(kp_s[i]),
@@ -69,11 +69,12 @@ def register():
             "descrip": desc[i],
             "user_id": user_id_1,}
             response = requests.post(
-            server[i]+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+            server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
             print("sent: from main server") 
             if response.status_code!=200:
-                return jsonify({"error":"error sending to storage server"+i})
-            '''
+                print("error")
+               # return jsonify({"error":"error sending to storage server"+i})
+            
 
         # Retrieve the server public keys 
         #pub_keys = segEnc2.get_public_keys(random_snos)
@@ -86,21 +87,21 @@ def register():
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
         # Send segments to random servers
-        data = {
+        '''data = {
             "len":len(keypoint_1),
             #"keypoint": skeypoint_1.tolist(),
             "descrip": descrip_1.tolist(),
             "user_id": user_id_1,
-        }
+        }'''
         
         # Send POST request to receiving server
-        response = requests.post(
+        """response = requests.post(
             "https://biovault-server1.onrender.com/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
         print("sent: from main server") 
         if response.status_code!=201:
             print(response)
             return jsonify({"error":"error sending to storage server"})   
-        print(response.content)  
+        print(response.content) """
 
         return {"message" :"Registration successful","success": True}
 
