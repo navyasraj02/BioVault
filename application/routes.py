@@ -123,7 +123,7 @@ def login():
         user_id_1= t_id
 
         # Retrieve the server public keys 
-        pub_keys = segEnc2.get_public_keys(random_snos)
+        #pub_keys = segEnc2.get_public_keys(random_snos)
 
         for i in range(4):
             server=fpMatch.server(random_snos[i])
@@ -137,6 +137,7 @@ def login():
             print("sent: from main server") 
             if response.status_code!=201:
                 print("error")
+                print(i)
                 print(response)
                 return jsonify({"error":"error sending to storage server"})
             
