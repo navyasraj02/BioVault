@@ -63,19 +63,22 @@ def register():
         
         '''for i in range(4):
             server=fpMatch.server(random_snos[i])
+            data = {
+            "len":len(kp_s[i]),
+            #"keypoint": skeypoint_1.tolist(),
+            "descrip": desc[i],
+            "user_id": user_id_1,}
             response = requests.post(
             server[i]+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
             print("sent: from main server") 
             if response.status_code!=200:
                 return jsonify({"error":"error sending to storage server"+i})
-            response_data = json.loads(response.content)'''
+            '''
 
         # Retrieve the server public keys 
-        pub_keys = segEnc2.get_public_keys(random_snos)
+        #pub_keys = segEnc2.get_public_keys(random_snos)
 
-        # for i in random_snos:
-        #     print("Server ",i," : ",pub_keys[i])
-
+        
         # Encrypt the segments 
         # for i in range(4):
         #     # print(random_snos[i],": ",pub_keys[random_snos[i]])
