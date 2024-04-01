@@ -57,7 +57,9 @@ def register():
         kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
         
         user_id_1= t_id
-        print(desc[0].tolist())
+        #print(desc[0].tolist())
+
+        # Send segments to random servers
         s=[]        
         for i in range(4):
             server=fpMatch.server(random_snos[i])
@@ -68,9 +70,9 @@ def register():
             "user_id": user_id_1}
             response = requests.post(
             server+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
-            print("sent: from main server") 
+            print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
-                print("error")
+                print("Error from server ",server)
                 print(response)
                 return jsonify({"error":"error sending to storage server"})
             
@@ -78,16 +80,18 @@ def register():
         # Retrieve the server public keys 
         #pub_keys = segEnc2.get_public_keys(random_snos)
 
-        
         # Encrypt the segments 
         # for i in range(4):
         #     # print(random_snos[i],": ",pub_keys[random_snos[i]])
         #     encrpted_seg = segEnc2.encrypt_segment(pub_keys[random_snos[i]],kp_s[i])
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
-        # Send segments to random servers
-        
+        #delete files
+        delete_files(sample_dir)
+        print(sample_dir)
         return {"message" :"Registration successful","success": True}
+    
+
 
 @app.route("/api/login", methods=["POST","GET"])
 def login():
@@ -134,9 +138,9 @@ def login():
             "user_id": user_id_1}
             response = requests.post(
             server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
-            print("sent: from main server") 
+            print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
-                print("error")
+                print("Error from server ",server)
                 print(i)
                 print(response)
                 return jsonify({"error":"error sending to storage server"})
