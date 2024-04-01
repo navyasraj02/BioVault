@@ -54,7 +54,7 @@ def register():
         print('Random server nos: ',random_snos)
         
         # Fingerprint segmentation
-        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
+        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,filename))
         
         user_id_1= t_id
         #print(desc[0].tolist())
@@ -72,10 +72,18 @@ def register():
             "https://biovault-server1.onrender.com"+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
-                print("Error from server ",server)
+                print("Error from storageserver")
                 delete_files(sample_dir)
                 print(response)
+                result = db.regUser.delete_one({'_id': user_id})
+                # Check if the deletion was successful
+                if result.deleted_count == 1:
+                    print("User deleted successfully.")
+                else:
+                    print("User not found.")
                 return jsonify({"error":"error sending to storage server"})
+            else:
+                print(response)
             
 
         # Retrieve the server public keys 
