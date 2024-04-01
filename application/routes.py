@@ -72,8 +72,14 @@ def register():
             server+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
-                print("Error from server ",server)
+                print("Error from storageserver")
                 print(response)
+                result = db.regUser.delete_one({'_id': user_id})
+                # Check if the deletion was successful
+                if result.deleted_count == 1:
+                    print("User deleted successfully.")
+                else:
+                    print("User not found.")
                 return jsonify({"error":"error sending to storage server"})
             
 
