@@ -48,5 +48,6 @@ def server(i):
     "https://biovault-server5.onrender.com",
     "https://biovault-server6.onrender.com",
     "https://biovault-server7.onrender.com",
+    "https://biovault-server1.onrender.com"
     ]
     return server_urls[i-1]

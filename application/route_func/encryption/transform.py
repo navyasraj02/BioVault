@@ -41,7 +41,7 @@ def hash_string(string):
         The SHA-256 hash of the transformed string as a hexadecimal string.
     """
     # RC4 key (you can change this key)
-    rc4_key = b'SecretKey'
+    rc4_key = b'SecretKeyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1kpdOa5X4ncb4UUrYZAxu3wmwB/RLJGb0/Q5rWXjn24Z7ycTXzmpi8kk4f/M5+9gc1U'
     #int_value = int(string)
     # Apply RC4 encryption to the string
     encrypted_string = rc4(rc4_key, string.encode()).hex()
@@ -49,7 +49,4 @@ def hash_string(string):
     # Hash the encrypted string using SHA-256
     return sha256(encrypted_string.encode()).hexdigest()
 
-# Example usage
-# string = "your_fingerprint_st1233ring"
-# hash_value = hash_string(string)
-# print(f"Hash of '{string}': {hash_value}")
+
