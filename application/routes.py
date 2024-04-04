@@ -131,7 +131,7 @@ def login():
         print('Random server nos: ',random_snos)
 
         #Fingerprint segmentation
-        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,"fa1.BMP"))
+        kp_s,desc= fpMatch.fingerprint_segment(os.path.join(sample_dir,filename))
         s=[]
         user_id_1= t_id
 
@@ -146,7 +146,7 @@ def login():
             "descrip": desc[i].tolist(),
             "user_id": user_id_1}
             response = requests.post(
-            server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+           "https://biovault-server1.onrender.com"+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
                 print("Error from server ",server)
