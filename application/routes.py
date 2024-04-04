@@ -69,7 +69,7 @@ def register():
             "descrip": desc[i].tolist(),
             "user_id": user_id_1}
             response = requests.post(
-            "https://biovault-server1.onrender.com"+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
+            "https://biovault-server1-p9ds.onrender.com"+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
                 print("Error from storageserver")
