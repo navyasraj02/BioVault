@@ -185,6 +185,6 @@ def delete_files(folder_path):
 
     file_list = os.listdir(folder_path)
 
-    for file_name in file_list:
+    for file_name in file_list and file_name!="n.py":
         file_path = os.path.join(folder_path, file_name)
         os.remove(file_path)
