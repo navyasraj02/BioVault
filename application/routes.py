@@ -62,7 +62,8 @@ def register():
         # Send segments to random servers
         s=[]        
         for i in range(4):
-            server=fpMatch.server(random_snos[i])
+            # server=fpMatch.server(random_snos[i])
+            server="http://127.0.0.1:6000"
             data = {
             "len":len(kp_s[i]),
             #"keypoint": skeypoint_1.tolist(),
@@ -139,14 +140,15 @@ def login():
         #pub_keys = segEnc2.get_public_keys(random_snos)
 
         for i in range(4):
-            server=fpMatch.server(random_snos[i])
+            # server=fpMatch.server(random_snos[i])     # working    
+            server="http://127.0.0.1:6000"              # only for checking logs
             data = {
             "len":len(kp_s[i]),
             #"keypoint": skeypoint_1.tolist(),
             "descrip": desc[i].tolist(),
             "user_id": user_id_1}
             response = requests.post(
-           "https://biovault-server1.onrender.com"+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+            server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
                 print("Error from server ",server)
@@ -185,6 +187,6 @@ def delete_files(folder_path):
 
     file_list = os.listdir(folder_path)
 
-    for file_name in file_list and file_name!="n.py":
+    for file_name in file_list:
         file_path = os.path.join(folder_path, file_name)
         os.remove(file_path)
