@@ -62,7 +62,8 @@ def register():
         # Send segments to random servers
         s=[]        
         for i in range(4):
-            server=fpMatch.server(random_snos[i])
+            # server=fpMatch.server(random_snos[i])
+            server="http://127.0.0.1:6000"
             data = {
             "len":len(kp_s[i]),
             #"keypoint": skeypoint_1.tolist(),
@@ -139,7 +140,8 @@ def login():
         #pub_keys = segEnc2.get_public_keys(random_snos)
 
         for i in range(4):
-            server=fpMatch.server(random_snos[i])
+            # server=fpMatch.server(random_snos[i])     # working    
+            server="http://127.0.0.1:6000"              # only for checking logs
             data = {
             "len":len(kp_s[i]),
             #"keypoint": skeypoint_1.tolist(),
