@@ -150,6 +150,9 @@ def login():
             response = requests.post(
            "http://127.0.0.1:6000"+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
+
+            #delete files
+            delete_files(sample_dir)
             if response.status_code!=201:
                 print("Error from server ",server)
                 print(i)
@@ -169,8 +172,7 @@ def login():
         s=np.array(s)
         all_above_50 = np.all(s> 50)
 
-        #delete files
-        delete_files(sample_dir)
+        
         #if all score is above 50 success and token send to front end acess
         if all_above_50:
             print("Login successful")
@@ -192,6 +194,6 @@ def delete_files(folder_path):
 
     file_list = os.listdir(folder_path)
 
-    for file_name in file_list and file_name!="n.py":
+    for file_name in file_list:
         file_path = os.path.join(folder_path, file_name)
         os.remove(file_path)
