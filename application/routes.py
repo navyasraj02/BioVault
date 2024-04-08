@@ -70,7 +70,7 @@ def register():
             "descrip": desc[i].tolist(),
             "user_id": user_id_1}
             response = requests.post(
-            server+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
+            "http://127.0.0.1:6000"+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
                 print("Error from storageserver")
@@ -148,7 +148,7 @@ def login():
             "descrip": desc[i].tolist(),
             "user_id": user_id_1}
             response = requests.post(
-            server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+           "http://127.0.0.1:6000"+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
                 print("Error from server ",server)
@@ -192,6 +192,6 @@ def delete_files(folder_path):
 
     file_list = os.listdir(folder_path)
 
-    for file_name in file_list:
+    for file_name in file_list and file_name!="n.py":
         file_path = os.path.join(folder_path, file_name)
         os.remove(file_path)
