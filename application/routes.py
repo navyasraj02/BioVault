@@ -98,7 +98,7 @@ def register():
 
         #delete files
         delete_files(sample_dir)
-        print(sample_dir)
+        print("Registration successful")
         return {"message" :"Registration successful","success": True}
     
 
@@ -170,8 +170,10 @@ def login():
         all_above_50 = np.all(s> 50)
         #if all score is above 50 success and token send to front end acess
         if all_above_50:
+            print("Login successful")
             return jsonify({"message" :"Login successful","success": True})
         else:
+           print("Login failed")
            return jsonify({"message" :"Login failed","success": False})
                 
     else:
