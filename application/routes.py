@@ -168,6 +168,9 @@ def login():
         print("outside for loop")
         s=np.array(s)
         all_above_50 = np.all(s> 50)
+
+        #delete files
+        delete_files(sample_dir)
         #if all score is above 50 success and token send to front end acess
         if all_above_50:
             print("Login successful")
