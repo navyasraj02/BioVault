@@ -153,21 +153,26 @@ def login():
 
             #delete files
             delete_files(sample_dir)
-            if response.status_code!=201:
+            """if response.status_code!=201:
                 print("Error from server ",server)
-                print(i)
-                print(response)
-                return jsonify({"error":"error sending to storage server"})
-            
+                # print(i)
+                print("Response: ",response)
+                return jsonify({"error":"error sending to storage server"})"""
 
             # Check if the response indicates success and get the score if present
-            if response.get("success") == "true":
-                score = response.get("score")
-                s.append(score)
-                print("Score:", score)
+            if response.status_code == 201:
+                response_data = response.json()  # Parse JSON content
+                if response_data.get("success") == True:
+                    score = response_data.get("score")
+                    s.append(score)
+                    print("Score:", score)
+                else:
+                    print("Response indicates failure")   
+                    print(response.content)
             else:
-                print("Response indicates failure")   
-                print(response.content)
+                print("Error from server ", server)
+                print("Response: ", response.text)
+                return jsonify({"error": "error sending to storage server"})        
         print("outside for loop")
         s=np.array(s)
         all_above_50 = np.all(s> 50)
