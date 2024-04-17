@@ -40,14 +40,14 @@ def serializef(keypoint):
     return skeypoint_1
 def server(i):
     server_urls = [
-    "https://biovault-server0.onrender.com",
+    # "https://biovault-server0.onrender.com",
     "https://biovault-server1-p9ds.onrender.com",#working
     "https://biovault-server2.onrender.com",
     "https://biovault-server3.onrender.com",
     "https://biovault-server4.onrender.com",
     "https://biovault-server5.onrender.com",
     "https://biovault-server6.onrender.com",
-    "https://biovault-server7.onrender.com",
-    "https://biovault-server1.onrender.com"
+    #"https://biovault-server7.onrender.com",
+    # "https://biovault-server1.onrender.com"
     ]
     return server_urls[i-1]

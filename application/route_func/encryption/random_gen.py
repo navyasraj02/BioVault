@@ -10,7 +10,7 @@ def generate_random_numbers(seed_value):
   # Generate 4 random numbers
   random_numbers = set()
   while len(random_numbers) < 4:
-    random_numbers.add(random.randint(1, 9))
+    random_numbers.add(random.randint(1, 6))
 
   return list(random_numbers)
 

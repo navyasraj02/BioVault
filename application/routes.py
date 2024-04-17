@@ -22,8 +22,7 @@ def index():
 def register():
     name = request.form.get("name")
     email = request.form.get("email")
-    #phoneno = request.form.get("phoneno")
-    #print("phone no:",phoneno)
+    phoneno = request.form.get("phoneno")
     fpimg = request.files['fingerprint']
 
     filename = secure_filename(fpimg.filename)
@@ -34,6 +33,7 @@ def register():
     existing_user = db.regUser.find_one({"email": email})
     if existing_user:
         print("User found: ",existing_user)
+        delete_files(sample_dir)
         return jsonify({"exists": True,"success":False}), 409
     else:
 
@@ -41,7 +41,7 @@ def register():
         user_id = db.regUser.insert_one({
             "name" : name,
             "email" : email,
-            #"phoneno" : phoneno            
+            "phoneno" : phoneno            
         }).inserted_id
         print("Id: ",user_id)
 
@@ -62,15 +62,15 @@ def register():
         # Send segments to random servers
         s=[]        
         for i in range(4):
-            # server=fpMatch.server(random_snos[i])
-            server="http://127.0.0.1:6000"
+            server=fpMatch.server(random_snos[i])
+            # server="http://127.0.0.1:6000"
             data = {
             "len":len(kp_s[i]),
             #"keypoint": skeypoint_1.tolist(),
             "descrip": desc[i].tolist(),
             "user_id": user_id_1}
             response = requests.post(
-            "http://127.0.0.1:6000"+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
+            server+"/api/reg", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
                 print("Error from storageserver")
@@ -140,15 +140,15 @@ def login():
         #pub_keys = segEnc2.get_public_keys(random_snos)
 
         for i in range(4):
-            # server=fpMatch.server(random_snos[i])     # working    
-            server="http://127.0.0.1:6000"              # only for checking logs
+            server=fpMatch.server(random_snos[i])     # working    
+            # server="http://127.0.0.1:6000"              # only for checking logs
             data = {
             "len":len(kp_s[i]),
             #"keypoint": skeypoint_1.tolist(),
             "descrip": desc[i].tolist(),
             "user_id": user_id_1}
             response = requests.post(
-           "http://127.0.0.1:6000"+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
+            server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
 
             #delete files
@@ -173,7 +173,6 @@ def login():
                 print("Error from server ", server)
                 print("Response: ", response.text)
                 return jsonify({"error": "error sending to storage server"})        
-        print("outside for loop")
         s=np.array(s)
         all_above_50 = np.all(s> 50)
 
@@ -188,6 +187,7 @@ def login():
                 
     else:
         print("User not found: ",existing_user)
+        delete_files(sample_dir)
         return jsonify({"success":False}), 409
         
 
