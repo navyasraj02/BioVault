@@ -33,7 +33,7 @@ def register():
     existing_user = db.regUser.find_one({"email": email})
     if existing_user:
         print("User found: ",existing_user)
-        delete_files(sample_dir)
+        delete_files(filename)
         return jsonify({"exists": True,"success":False}), 409
     else:
 
@@ -74,7 +74,7 @@ def register():
             print("Sent: from main server to storage server ",server) 
             if response.status_code!=201:
                 print("Error from storageserver")
-                delete_files(sample_dir)
+                delete_files(filename)
                 print(response)
                 result = db.regUser.delete_one({'_id': user_id})
                 # Check if the deletion was successful
@@ -97,7 +97,7 @@ def register():
         #     print("Encrypted segment ",i+1,": ",encrpted_seg)
 
         #delete files
-        delete_files(sample_dir)
+        delete_files(filename)
         print("Registration successful")
         return {"message" :"Registration successful","success": True}
     
@@ -150,9 +150,9 @@ def login():
             response = requests.post(
             server+"/api/log", json={"data":data},headers={"Content-Type": "application/json"})
             print("Sent: from main server to storage server ",server) 
-
+            print("filename:",filename)
             #delete files
-            delete_files(sample_dir)
+            delete_files(filename)
             """if response.status_code!=201:
                 print("Error from server ",server)
                 # print(i)
@@ -187,18 +187,16 @@ def login():
                 
     else:
         print("User not found: ",existing_user)
-        delete_files(sample_dir)
+        delete_files(filename)
         return jsonify({"success":False}), 409
         
 
  
 
 # --------delete file func---------
-def delete_files(folder_path):
+def delete_files(filename):
     # folder_path = 'path/to/your/folder'
+    os.remove(os.path.join(sample_dir,filename))
+    
 
-    file_list = os.listdir(folder_path)
-
-    for file_name in file_list:
-        file_path = os.path.join(folder_path, file_name)
-        os.remove(file_path)
+    
