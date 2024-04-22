@@ -152,7 +152,8 @@ def login():
             print("Sent: from main server to storage server ",server) 
             print("filename:",filename)
             #delete files
-            delete_files(filename)
+            print("response:",response)
+            
             """if response.status_code!=201:
                 print("Error from server ",server)
                 # print(i)
@@ -175,7 +176,7 @@ def login():
                 return jsonify({"error": "error sending to storage server"})        
         s=np.array(s)
         all_above_50 = np.all(s> 50)
-
+        delete_files(filename)
         
         #if all score is above 50 success and token send to front end acess
         if all_above_50:
