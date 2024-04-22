@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import msgpack
+
 def fingerprint_segment(image1_path):
     kp1, kp2 = None, None
 
@@ -28,16 +28,6 @@ def fingerprint_segment(image1_path):
 
     # FLANN parameters
     return kp_s1,desc_s
-def serializef(keypoint):
-    skeypoint_1 = [msgpack.dumps({
-        'pt': (kp.pt[0], kp.pt[1]),
-        'size': kp.size,
-        'angle': kp.angle,
-        'response': kp.response,
-        'octave': kp.octave,
-        'class_id': kp.class_id
-        }) for kp in keypoint]
-    return skeypoint_1
 def server(i):
     server_urls = [
     # "https://biovault-server0.onrender.com",
