@@ -22,7 +22,7 @@ def index():
 def register():
     name = request.form.get("name")
     email = request.form.get("email")
-    phoneno = request.form.get("phoneno")
+    phoneno = request.form.get("phoneNumber")
     fpimg = request.files['fingerprint']
 
     filename = secure_filename(fpimg.filename)
